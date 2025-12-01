@@ -64,7 +64,7 @@ System Tray: Minimizes silently to the tray with status indication.
 Dual Language: Native English and Turkish support.
 
 📥 Installation
-Go to the [şüpheli bağlantı kaldırıldı].
+Go to the releases page.
 
 Download the latest NoteFlow_vX.X_Release.zip.
 
