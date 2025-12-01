@@ -1,43 +1,100 @@
-🚀 ThinkPad Ultimate Command Center (Fan & Battery Control)
-This application is a comprehensive system management tool written in Python, designed to override the aggressive thermal management policies and limited battery settings often found in modern Lenovo ThinkPad E-series (E15 Gen 2 and similar) laptops.
+❄️ NoteFlow: The Ultimate Laptop Command Center
+Transcend the limits of your BIOS. Control your hardware. Extend your lifespan.
 
-Our Goal: To grant the user absolute control over the laptop's thermal and power hardware.
+NoteFlow is a next-generation, open-source system utility designed to bypass aggressive thermal throttling policies and locked battery configurations found in modern laptops (Lenovo, HP, Dell, Asus, and more).
 
-✨ Core Features
-Aggressive Persistence Loop: Utilizes a "Stubborn Mode" to continuously override the BIOS, ensuring the fan speed remains locked at your desired level (Levels 1-7 or Turbo).
+Unlike standard fan control software, NoteFlow employs a Hybrid Intelligence Engine and an aggressive Persistence Loop to force hardware compliance, ensuring your settings stick even when the BIOS tries to override them.
 
-Full Manual Fan Control: Direct access to fan speed levels 1 (Silent) through 7 (Performance), plus the extreme TURBO JET mode (0x40).
+⚡ Why NoteFlow? (Comparison)
+Most fan control software fails because modern BIOS watchdogs are aggressive. NoteFlow is built differently.
 
-Precision Battery Limiter: Allows setting custom Start and Stop charge thresholds to preserve battery health (writes directly to EC registers 0xB0/0xB1).
+<img width="867" height="462" alt="image" src="https://github.com/user-attachments/assets/5a3c9e64-1209-46a4-ad47-2da4bd7e6347" />
 
-Deep Battery Health Stats: Reads precise Cycle Count and Wear Level (%) by parsing the authoritative Windows PowerCfg /BatteryReport.
+🧠 Under the Hood: The Hybrid Architecture
+NoteFlow is not just a script; it is built upon a scalable, multi-layered architecture designed for universality.
+graph TD;
 
-System Monitoring (Dashboard): Provides real-time tracking of CPU, RAM, and Disk usage via live progress bars.
+    A[Launch NoteFlow] --> B{Local Config Exists?};
+    B -- YES --> C[Load Precise JSON Profile];
+    B -- NO --> D[Activate AI Detective];
+    D --> E[Analyze System Vendor];
+    E --> F[Apply Heuristic Heuristic Profile];
+    C --> G[CORE ENGINE];
+    F --> G;
+    G --> H[Persistence Loop (Fan)];
+    G --> I[WMI & PowerCfg (Battery)];
+    
+1. The Configuration Layer (Universal Support)
+NoteFlow utilizes a robust JSON-based configuration system. It scans the Configs/ directory for a model-specific file (e.g., HP_OMEN_15.json).
 
-Global Hotkeys: Control fan modes instantly within games or other full-screen applications using global keyboard shortcuts (Ctrl + Alt + 1/2/3).
+Scalability: Supporting a new laptop is as simple as adding a single JSON file. No code changes required.
 
-User Experience: Features a modern, clean (CustomTkinter) Dark Mode interface and dual TR/EN language support.
+Current Library: Includes optimized support for 300+ Laptop Models converted from legacy databases.
 
-⚠️ The Critical Problem Solved (EC/BIOS Conflict)
-The core difficulty in this project was bypassing the proprietary Embedded Controller (EC) chip. The application successfully overcomes the most common hardware failure points:
+2. The AI Detective (Heuristic Fallback)
+If no configuration file is found, NoteFlow doesn't fail. It activates its internal heuristic engine:
 
-EC "Busy" Flag (128 Error): The EC often sends an error signal (128 or 0x80) when simultaneously asked for temperature and write commands. Our current solution prevents this by stabilizing the hardware channel.
+It detects the manufacturer (Lenovo, Dell, Asus, etc.).
 
-BIOS Watchdog: The application defeats the BIOS's attempt to reset manual fan speeds (the constant cutting out of fan power) by implementing an aggressive, repeating command loop.
+It applies the most statistically probable register addresses for that brand.
 
-🛠️ Installation and Usage
-1. Requirements
-The application requires the inpoutx64.dll driver for low-level hardware access.
+Result: It works "out of the box" on untasted hardware.
 
-2. Run as Administrator (Mandatory)
-The application must be run with Administrator privileges to execute hardware-level commands (Port I/O).
+3. The "Nuclear" Battery Method
+Standard Windows APIs often hide the Battery Cycle Count. NoteFlow spawns a background thread that interfaces directly with the Windows Power Configuration (PowerCfg) subsystem to parse raw XML reports, delivering 100% accurate Cycle Counts and Real-Time Health data that even OEM software often hides.
 
-3. Usage
-Fan Control: Use the buttons on the FAN CONTROL tab, or use the global hotkeys for immediate control.
+✨ Key Features
+🌪️ Advanced Thermal Control
+Pure Manual Mode: Direct access to EC registers. Set fans from Silent (0%) to TURBO JET (100% Disengaged).
 
-Battery Thresholds: Go to the BATTERY tab, adjust the sliders, and click "APPLY SETTINGS". (Settings persist across reboots).
+Anti-Throttling: Prevents performance drops during gaming by forcing maximum cooling before the CPU hits thermal limits.
 
-VIRUS TOTAL TEST LINK: https://www.virustotal.com/gui/file/b2bfabeaf524a8e42a84323ce1cd6abb74d5c3a3fc31ad595ace52b94ccfe539/detection
+🔋 Battery Mastery
+Charge Thresholds: Set a Start Limit (e.g., 40%) and Stop Limit (e.g., 80%). Keeping the battery away from 100% can double its lifespan.
 
-🛑 Hardware Safety Disclaimer
-This utility performs direct low-level hardware manipulation on your laptop's Embedded Controller. Use at your own risk. Although the application is designed to revert to the safe BIOS/Automatic mode upon exit, incorrect use of the lowest speeds without external thermal monitoring could potentially damage hardware.
+Smart Presets: One-click toggles for Travel Mode (100%) and Desktop Mode (60%).
+
+💻 System Dashboard & UX
+Live Monitoring: Real-time visualization of CPU, RAM, and Disk loads.
+
+Global Hotkeys: Control your fan speed while in-game using Ctrl + Alt + 1/2/3.
+
+System Tray: Minimizes silently to the tray with status indication.
+
+Dual Language: Native English and Turkish support.
+
+📥 Installation
+Go to the [şüpheli bağlantı kaldırıldı].
+
+Download the latest NoteFlow_vX.X_Release.zip.
+
+Extract the folder to a safe location.
+
+Run NoteFlow_vX.X.exe as Administrator.
+
+Admin rights are mandatory for low-level hardware access (InpOut32).
+
+🔮 Future Roadmap
+The architecture of NoteFlow allows for massive expansion. Future goals include:
+
+☁️ Cloud Auto-Sync: Automatically download missing config files from the GitHub repository upon launch.
+
+📈 Custom Fan Curves: Graphical UI to draw temperature/speed curves (PID Controller).
+
+🔌 Power Plan Sync: Automatically switch Windows Power Plans based on Fan Modes.
+
+⚠️ Hardware Disclaimer
+NoteFlow interacts directly with your laptop's Embedded Controller (EC) via port 0x62 and 0x66. While the application includes safety features (such as reverting to BIOS Auto-Mode upon exit), you use this software at your own risk. We are not responsible for hardware damage caused by disabling thermal protections or overriding fan speeds for extended periods without monitoring.
+
+👨‍💻 Contributing
+Got a new laptop model?
+
+Find your register values.
+
+Create a JSON file in the Configs folder.
+
+Submit a Pull Request!
+
+License: MIT License
+
+VirusTotal Scan Result: https://www.virustotal.com/gui/file/b2bfabeaf524a8e42a84323ce1cd6abb74d5c3a3fc31ad595ace52b94ccfe539/detection
